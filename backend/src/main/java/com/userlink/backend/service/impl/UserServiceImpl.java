@@ -30,6 +30,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
 
+        //账户不能重复 + 性能优化
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_account", userAccount);
+        long count = this.count(queryWrapper);
+        if(count > 0){
+            return -1;
+        }
 
 
         //1.校验 利用common lang依赖中的utils方法进行简化
@@ -52,14 +59,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         //校验密码和校验密码是否相同
         if (!checkPassword.equals(userPassword)) {
-            return -1;
-        }
-
-        //账户不能重复
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_account", userAccount);
-        long count = this.count(queryWrapper);
-        if(count > 0){
             return -1;
         }
 
