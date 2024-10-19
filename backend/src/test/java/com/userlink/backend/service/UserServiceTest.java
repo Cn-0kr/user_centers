@@ -2,6 +2,7 @@ package com.userlink.backend.service;
 import java.util.Date;
 
 import com.userlink.backend.pojo.domain.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,5 +35,19 @@ class UserServiceTest {
         user.setEmail("qq@gmail.com");
         boolean result = userService.save(user);
         System.out.println(user.getId());
+    }
+
+    @Test
+    void userRegister() {
+        String userAccount = "123";
+        String password = "qw";
+        String checkPassword = "qw123";
+        long result = userService.userRegister(userAccount, password, checkPassword);
+        Assertions.assertEquals(-1, result);
+        userAccount = "hushangzhanshen";
+        password = "12345678";
+        checkPassword = "12345678";
+        result = userService.userRegister(userAccount, password, checkPassword);
+        System.out.println(result);
     }
 }
