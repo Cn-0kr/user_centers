@@ -1,7 +1,8 @@
 package com.userlink.backend.mapper;
 
-import com.userlink.backend.pojo.domain.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.userlink.backend.pojo.domain.User;
+
 
 /**
 * @author zhuho
@@ -10,6 +11,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.userlink.backend.pojo.domain.User
 */
 public interface UserMapper extends BaseMapper<User> {
+
 
 }
 

@@ -1,5 +1,4 @@
 package com.userlink.backend.service.impl;
-import java.util.Date;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,7 +7,6 @@ import com.userlink.backend.service.UserService;
 import com.userlink.backend.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -16,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.userlink.backend.constant.UserConstant.USER_LOGIN_STATE;
 
 
 /**
@@ -35,7 +34,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      * 盐值 混淆密码
      */
     private static final String SALT = "yzl1234";
-    private static final String USER_LOGIN_STATE = "userLoginState";
+
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
 
@@ -128,12 +127,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         safetyUser.setUserAccount(user.getUserAccount());
         safetyUser.setGender(user.getGender());
         safetyUser.setPhone(user.getPhone());
+        safetyUser.setUserRole(user.getUserRole());
         safetyUser.setEmail(user.getEmail());
         safetyUser.setUserStatus(user.getUserStatus());
         safetyUser.setCreateTime(user.getCreateTime());
 
         //记录用户登录态
-        request.setAttribute(USER_LOGIN_STATE, safetyUser);
+        request.getSession().setAttribute(USER_LOGIN_STATE, safetyUser);
 
         return safetyUser;
     }

@@ -1,13 +1,11 @@
 package com.userlink.backend.service;
-import java.util.Date;
 
 import com.userlink.backend.pojo.domain.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.util.DigestUtils;
 
 /*
  * @author  0kr
@@ -49,5 +47,10 @@ class UserServiceTest {
         checkPassword = "12345678";
         result = userService.userRegister(userAccount, password, checkPassword);
         System.out.println(result);
+    }
+
+    @Test
+    void userLogin() {
+        System.out.println( DigestUtils.md5DigestAsHex(("yzl1234" + "12345678").getBytes()) );
     }
 }

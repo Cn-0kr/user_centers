@@ -1,7 +1,7 @@
 package com.userlink.backend.service;
 
-import com.userlink.backend.pojo.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.userlink.backend.pojo.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 * @createDate 2024-10-19 15:39:07
 */
 public interface UserService extends IService<User> {
+
     /**
      * 前端用户注册
      * @param userAccount 用户账户
@@ -27,4 +28,6 @@ public interface UserService extends IService<User> {
      * @return 返回脱敏后的用户信息
      */
     User userLogin(String userAccount, String userPassword, HttpServletRequest request);
+
+
 }
