@@ -1,13 +1,10 @@
 import { Footer } from '@/components';
-import { login } from '@/services/ant-design-pro/api';
+import { login, register } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import {
-  AlipayCircleOutlined,
   LockOutlined,
   MobileOutlined,
-  TaobaoCircleOutlined,
   UserOutlined,
-  WeiboCircleOutlined,
 } from '@ant-design/icons';
 import {
   LoginForm,
@@ -57,7 +54,6 @@ const useStyles = createStyles(({ token }) => {
   };
 });
 const Lang = () => {
-  const { styles } = useStyles();
   return;
 };
 const LoginMessage: React.FC<{
@@ -74,42 +70,44 @@ const LoginMessage: React.FC<{
     />
   );
 };
-const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+const Register: React.FC = () => {
+  const [userLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
   const { styles } = useStyles();
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      flushSync(() => {
-        setInitialState((s) => ({
-          ...s,
-          currentUser: userInfo,
-        }));
-      });
-    }
-  };
   const handleSubmit = async (values: API.RegisterParams) => {
+    const {userAccount, userPassword, checkPassword} = values;
+    //提交之前进行简单检验
+    if(userPassword !== checkPassword){
+      message.error('两次输入密码不一致，请重新输入！');
+      return;
+    }
+    if(userAccount ==='linker'){
+      message.error('你想肝肾么！造反吗！');
+      return;
+    }
     try {
-      // 登录
-      const user = await login({
-        ...values,
-        type,
-      });
-      if (user) {
-        const defaultLoginSuccessMessage = '登录成功！';
+      // 注册
+      const id = await register(values);
+      if (id > 0) {
+        const defaultLoginSuccessMessage = '注册成功！';
         message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
+
+        // 获取当前 URL 中的 redirect 参数
         const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
+        const redirect = urlParams.get('redirect');
+
+        // 构建登录页面的 URL，包含 redirect 参数
+        const loginPath = '/user/login' + (redirect ? `?redirect=${encodeURIComponent(redirect)}` : '');
+
+        // 跳转到登录页面
+        history.push(loginPath);
         return;
+      }else{
+        throw new Error(`register error id = ${id}`);
       }
-      console.log(user);
-      // 如果失败去设置用户错误信息
-      setUserLoginState(user);
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
+      const defaultLoginFailureMessage = '注册失败，请重试！';
       console.log(error);
       message.error(defaultLoginFailureMessage);
     }
@@ -119,7 +117,7 @@ const Login: React.FC = () => {
     <div className={styles.container}>
       <Helmet>
         <title>
-          {'登录'}- {Settings.title}
+          {'注册'}- {Settings.title}
         </title>
       </Helmet>
       <Lang />
@@ -130,6 +128,11 @@ const Login: React.FC = () => {
         }}
       >
         <LoginForm
+          submitter={{
+            searchConfig: {
+              submitText: '注册'
+            }
+            }}
           contentStyle={{
             minWidth: 280,
             maxWidth: '75vw',
@@ -141,7 +144,7 @@ const Login: React.FC = () => {
             autoLogin: false,
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            await handleSubmit(values as API.RegisterParams);
           }}
         >
           <Tabs
@@ -151,11 +154,7 @@ const Login: React.FC = () => {
             items={[
               {
                 key: 'account',
-                label: '账户密码登录',
-              },
-              {
-                key: 'mobile',
-                label: '手机号登录',
+                label: '账户密码注册',
               },
             ]}
           />
@@ -177,6 +176,11 @@ const Login: React.FC = () => {
                     required: true,
                     message: '账户是必填项哦！',
                   },
+                  {
+                    min: 4,
+                    type: 'string',
+                    message: '长度不能小于4',
+                  },
                 ]}
               />
               <ProFormText.Password
@@ -191,89 +195,39 @@ const Login: React.FC = () => {
                     required: true,
                     message: '密码是必填项哦！',
                   },
-                ]}
-              />
-            </>
-          )}
-
-          {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
-          {type === 'mobile' && (
-            <>
-              <ProFormText
-                fieldProps={{
-                  size: 'large',
-                  prefix: <MobileOutlined />,
-                }}
-                name="mobile"
-                placeholder={'请输入手机号！'}
-                rules={[
                   {
-                    required: true,
-                    message: '手机号是必填项哦！',
-                  },
-                  {
-                    pattern: /^1\d{10}$/,
-                    message: '不合法的手机号！',
+                    min: 8,
+                    type: 'string',
+                    message: '长度不能小于8',
                   },
                 ]}
               />
-              <ProFormCaptcha
+              <ProFormText.Password
+                name="checkPassword"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined />,
                 }}
-                captchaProps={{
-                  size: 'large',
-                }}
-                placeholder={'请输入验证码！'}
-                captchaTextRender={(timing, count) => {
-                  if (timing) {
-                    return `${count} ${'秒后重新获取'}`;
-                  }
-                  return '获取验证码';
-                }}
-                name="captcha"
+                placeholder={'请再次输入密码：'}
                 rules={[
                   {
                     required: true,
-                    message: '验证码是必填项！',
+                    message: '二次密码是必填项哦！',
+                  },
+                  {
+                    min: 8,
+                    type: 'string',
+                    message: '长度不能小于8',
                   },
                 ]}
-                onGetCaptcha={async (phone) => {
-                  const result = await getFakeCaptcha({
-                    phone,
-                  });
-                  if (!result) {
-                    return;
-                  }
-                  message.success('获取验证码成功！验证码为：1234');
-                }}
               />
             </>
           )}
-          <div
-            style={{
-              marginBottom: 24,
-            }}
-          >
-            <ProFormCheckbox noStyle name="autoLogin">
-              自动登录
-            </ProFormCheckbox>
-            <a
-              style={{
-                float: 'right',
-              }}
-              href={"./user/register"}
-              target="_blank"
-            >
 
-              新用户注册
-            </a>
-          </div>
         </LoginForm>
       </div>
       <Footer />
     </div>
   );
 };
-export default Login;
+export default Register;
