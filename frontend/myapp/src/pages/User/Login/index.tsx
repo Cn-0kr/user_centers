@@ -15,7 +15,7 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Helmet, history, useModel } from '@umijs/max';
+import { Helmet, history, Link, useModel } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
@@ -259,16 +259,14 @@ const Login: React.FC = () => {
             <ProFormCheckbox noStyle name="autoLogin">
               自动登录
             </ProFormCheckbox>
-            <a
+            <Link
               style={{
-                float: 'right',
+              float: 'right',
               }}
-              href={"./user/register"}
-              target="_blank"
+              to="/user/register"
             >
-
               新用户注册
-            </a>
+            </Link>
           </div>
         </LoginForm>
       </div>
