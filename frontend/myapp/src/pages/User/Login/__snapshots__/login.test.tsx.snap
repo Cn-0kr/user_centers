@@ -795,8 +795,8 @@ exports[`Login Page should show login form 1`] = `
                         </span>
                         <input
                           class="ant-input ant-input-lg"
-                          id="username"
-                          placeholder="Username: admin or user"
+                          id="userAccount"
+                          placeholder="userAccount: admin or user"
                           type="text"
                           value=""
                         />
@@ -852,7 +852,7 @@ exports[`Login Page should show login form 1`] = `
                       class="ant-form-item-control-input-content"
                     >
                       <span
-                        class="ant-input-affix-wrapper ant-input-password ant-input-password-large ant-input-affix-wrapper-lg"
+                        class="ant-input-affix-wrapper ant-input-userPassword ant-input-userPassword-large ant-input-affix-wrapper-lg"
                       >
                         <span
                           class="ant-input-prefix"
@@ -879,9 +879,9 @@ exports[`Login Page should show login form 1`] = `
                         </span>
                         <input
                           class="ant-input ant-input-lg"
-                          id="password"
-                          placeholder="Password: ant.design"
-                          type="password"
+                          id="userPassword"
+                          placeholder="userPassword: ant.design"
+                          type="userPassword"
                           value=""
                         />
                         <span
@@ -889,7 +889,7 @@ exports[`Login Page should show login form 1`] = `
                         >
                           <span
                             aria-label="eye-invisible"
-                            class="anticon anticon-eye-invisible ant-input-password-icon"
+                            class="anticon anticon-eye-invisible ant-input-userPassword-icon"
                             role="img"
                             tabindex="-1"
                           >

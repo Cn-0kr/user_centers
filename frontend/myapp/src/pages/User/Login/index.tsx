@@ -144,13 +144,12 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
-          subTitle={'Ant Design 是西湖区最具影响力的 Web 设计规范'}
+          logo={<img alt="logo" src="/ReadmdLogo.jpeg" />}
+          title="Readmd"
+          subTitle={'Readmd 是世界上最好的读书笔记阅读网站！(嚣张)'}
           initialValues={{
-            autoLogin: true,
+            autoLogin: false,
           }}
-          actions={['其他登录方式 :', <ActionIcons key="icons" />]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
           }}
@@ -172,35 +171,35 @@ const Login: React.FC = () => {
           />
 
           {status === 'error' && loginType === 'account' && (
-            <LoginMessage content={'错误的用户名和密码(admin/ant.design)'} />
+            <LoginMessage content={'错误的账户和密码'} />
           )}
           {type === 'account' && (
             <>
               <ProFormText
-                name="username"
+                name="userAccount"
                 fieldProps={{
                   size: 'large',
                   prefix: <UserOutlined />,
                 }}
-                placeholder={'用户名: admin or user'}
+                placeholder={'请输入账户：'}
                 rules={[
                   {
                     required: true,
-                    message: '用户名是必填项！',
+                    message: '账户是必填项哦！',
                   },
                 ]}
               />
               <ProFormText.Password
-                name="password"
+                name="userPassword"
                 fieldProps={{
                   size: 'large',
                   prefix: <LockOutlined />,
                 }}
-                placeholder={'密码: ant.design'}
+                placeholder={'请输入密码：'}
                 rules={[
                   {
                     required: true,
-                    message: '密码是必填项！',
+                    message: '密码是必填项哦！',
                   },
                 ]}
               />
@@ -220,7 +219,7 @@ const Login: React.FC = () => {
                 rules={[
                   {
                     required: true,
-                    message: '手机号是必填项！',
+                    message: '手机号是必填项哦！',
                   },
                   {
                     pattern: /^1\d{10}$/,
@@ -274,8 +273,11 @@ const Login: React.FC = () => {
               style={{
                 float: 'right',
               }}
+              href={"https://github.com/Cn-0kr/user_centers"}
+              target="_blank"
             >
-              忘记密码 ?
+
+              新用户注册
             </a>
           </div>
         </LoginForm>
