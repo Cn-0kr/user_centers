@@ -2,6 +2,8 @@ package com.userlink.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.userlink.backend.common.ErrorCode;
+import com.userlink.backend.exception.BusinessException;
 import com.userlink.backend.pojo.domain.User;
 import com.userlink.backend.service.UserService;
 import com.userlink.backend.mapper.UserMapper;
@@ -43,32 +45,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         queryWrapper.eq("userAccount", userAccount);
         long count = this.count(queryWrapper);
         if(count > 0){
-            //todo 封装自定义异常类
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"账户重复");
         }
 
 
         //1.校验 利用common lang依赖中的utils方法进行简化
         if(StringUtils.isAnyBlank(userAccount,userPassword,checkPassword)){
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"参数为空");
         }
         if(userAccount.length()<4){
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"用户账号过短");
         }
         if(userPassword.length()< 8 || checkPassword.length()<8){
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"用户密码过短");
         }
 
         //校验特殊字符
         String validPattern = "^a-zA-Z0-9";
         Matcher matcher = Pattern.compile(validPattern).matcher(userAccount);
         if(matcher.find()){
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
         //校验密码和校验密码是否相同
         if (!checkPassword.equals(userPassword)) {
-            return -1;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
 
