@@ -120,6 +120,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
         //用户脱敏
+        User safetyUser = getSafetyUser(user);
+
+        //记录用户登录态
+        request.getSession().setAttribute(USER_LOGIN_STATE, safetyUser);
+
+        return safetyUser;
+    }
+
+    public User getSafetyUser(@org.jetbrains.annotations.NotNull User user) {
         User safetyUser = new User();
         safetyUser.setId(user.getId());
         safetyUser.setUsername(user.getUsername());
@@ -131,10 +140,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         safetyUser.setEmail(user.getEmail());
         safetyUser.setUserStatus(user.getUserStatus());
         safetyUser.setCreateTime(user.getCreateTime());
-
-        //记录用户登录态
-        request.getSession().setAttribute(USER_LOGIN_STATE, safetyUser);
-
         return safetyUser;
     }
 }

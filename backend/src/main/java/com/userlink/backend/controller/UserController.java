@@ -60,6 +60,21 @@ public class UserController {
         return userService.userLogin(userAccount, userPassword, request);
     }
 
+    //获取当前用户登录信息
+    @GetMapping("/current")
+    public User getCurrentUser(HttpServletRequest request) {
+        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        User currentUser = (User) userObj;
+        if(currentUser == null){
+            return null;
+        }
+        //为了保证频繁更新的数据是正确的，此处需要在service层跑一圈来查数据库更新数据
+        long userId = currentUser.getId();
+        //todo 校验用户是否合法
+        User user = userService.getById(userId);
+        return userService.getSafetyUser(user);
+    }
+
     @GetMapping("/search")
     public List<User> searchUser(String username, HttpServletRequest request) {
         if(!isAdmin(request)){
