@@ -91,6 +91,14 @@ public class UserController {
         }).collect(Collectors.toList());
     }
 
+    @PostMapping("/logout")
+    public Integer userLogout(HttpServletRequest request) {
+        if(request == null){
+            return null;
+        }
+        return userService.userLogout(request);
+    }
+
     @PostMapping("/delete")
     public boolean deleteUser(@RequestBody long id, HttpServletRequest request) {
         if(!isAdmin(request)){

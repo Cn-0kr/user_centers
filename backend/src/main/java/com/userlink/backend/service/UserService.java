@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.userlink.backend.pojo.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
 * @author zhuho
@@ -36,4 +37,12 @@ public interface UserService extends IService<User> {
      * @return 返回脱敏信息
      */
     User getSafetyUser(User user);
+
+
+    /**
+     * 用户注销
+     * @param request
+     * @return null
+     */
+    int userLogout(HttpServletRequest request);
 }
