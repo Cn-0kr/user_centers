@@ -1,22 +1,17 @@
 import { Footer } from '@/components';
 import { login, register } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import {
   LockOutlined,
-  MobileOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import {
   LoginForm,
-  ProFormCaptcha,
-  ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
 import { Helmet, history, useModel } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
-import { flushSync } from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
 const useStyles = createStyles(({ token }) => {
   return {
@@ -104,12 +99,13 @@ const Register: React.FC = () => {
         history.push(loginPath);
         return;
       }else{
-        throw new Error(`register error id = ${id}`);
+        throw new Error('register error id');
       }
-    } catch (error) {
+    } catch (error: any) {
       const defaultLoginFailureMessage = '注册失败，请重试！';
       console.log(error);
-      message.error(defaultLoginFailureMessage);
+      // @ts-ignore
+      message.error(error.message ?? defaultLoginFailureMessage);
     }
   };
   const { status, type: loginType } = userLoginState;
