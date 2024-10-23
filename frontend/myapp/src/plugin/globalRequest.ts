@@ -53,19 +53,26 @@ request.interceptors.request.use((url, options): any => {
  */
 request.interceptors.response.use(async (response, options): Promise<any> => {
   const res = await response.clone().json();
-  if(res.code === 0){
+
+  if (res.code === 0) {
     return res.data;
   }
-  if(res.code === 40100){
-    message.error('请先登录哦~');
-    const { pathname, search } = window.location;
-    const redirect = pathname + search;
-    history.pushState({},"",`/user/login?${stringify({ redirect })}`);
 
-    return res;
-  }else {
-    message.error(res.description);
+  // 处理错误情况
+  if (res.code !== 0) {
+    message.error(res.description || '请求失败');
+
+    // 处理未登录情况
+    if (res.code === 40100) {
+      const { pathname, search } = window.location;
+      const redirect = pathname + search;
+      history.replaceState("","",`/user/login?${stringify({ redirect })}`);
+    }
+
+    // 抛出错误，阻止后续处理
+    throw new Error(res.description || '请求失败');
   }
+
   return res.data;
 });
 

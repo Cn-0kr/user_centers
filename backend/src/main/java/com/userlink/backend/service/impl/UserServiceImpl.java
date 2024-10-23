@@ -91,20 +91,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public User userLogin(String userAccount, String userPassword, HttpServletRequest request) {
         if(StringUtils.isAnyBlank(userAccount,userPassword)){
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         if(userAccount.length()<4){
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         if(userPassword.length()< 8){
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
         //校验特殊字符
         String validPattern = "^a-zA-Z0-9";
         Matcher matcher = Pattern.compile(validPattern).matcher(userAccount);
         if(matcher.find()){
-            return null;
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
         //加盐
@@ -116,7 +116,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = this.getOne(queryWrapper);
         if(user == null){
             log.info("user login failed, userAccount cannot match Password");
-            return null;
+            throw new BusinessException(ErrorCode.NOT_LOGIN,"账号不存在");
         }
 
 
