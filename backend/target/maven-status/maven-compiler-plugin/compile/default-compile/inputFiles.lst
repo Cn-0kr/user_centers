@@ -1,0 +1,14 @@
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\pojo\domain\request\UserRegisterRequest.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\common\ResultUtils.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\BackendApplication.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\controller\UserController.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\exception\BusinessException.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\service\UserService.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\pojo\domain\request\UserLoginRequest.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\common\BaseResponse.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\common\ErrorCode.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\mapper\UserMapper.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\exception\GlobalExceptionHandler.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\service\impl\UserServiceImpl.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\constant\UserConstant.java
+D:\程序学习笔记\鱼皮项目学习\user_centers\backend\src\main\java\com\userlink\backend\pojo\domain\User.java

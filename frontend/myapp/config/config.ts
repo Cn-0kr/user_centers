@@ -131,4 +131,5 @@ export default defineConfig({
   },
   esbuildMinifyIIFE: true,
   requestRecord: {},
+  exportStatic:{},
 });

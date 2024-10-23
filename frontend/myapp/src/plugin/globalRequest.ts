@@ -30,6 +30,10 @@ const codeMessage = {
  */
 const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
+  /**
+   * 此行代码用于区分生产和开发环境
+   */
+  prefix: process.env.NODE_ENV === 'production'? 'http://user-backend.code-nav.cn': undefined,
   // requestType: 'form',
 });
 
@@ -70,7 +74,7 @@ request.interceptors.response.use(async (response, options): Promise<any> => {
     }
 
     // 抛出错误，阻止后续处理
-    throw new Error(res.description || '请求失败');
+    throw new Error(res.description);
   }
 
   return res.data;
