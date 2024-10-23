@@ -17,3 +17,5 @@ create table if not exists user_centers.user
     )
     comment '用户表';
 
+-- 打包后的执行语句：
+-- .\u........jar -- spring.profiles.activ=proo
