@@ -7,7 +7,7 @@ import { history, Link, RunTimeLayoutConfig } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'production';
 const loginPath = '/user/login';
 /**
  * 无需登陆的界面白名单

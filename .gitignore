@@ -1,2 +1,3 @@
 
 backend/src/main/resources/application-prod.yml
+backend/target/classes/application-prod.yml
