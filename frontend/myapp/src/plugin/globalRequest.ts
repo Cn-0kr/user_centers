@@ -33,7 +33,7 @@ const request = extend({
   /**
    * 此行代码用于区分生产和开发环境
    */
-  prefix: process.env.NODE_ENV === 'production'? 'http://yqbirdmp.com': undefined,
+  prefix: process.env.NODE_ENV === 'production'? 'http://user-backend.yqbirdmp.com': undefined,
   // requestType: 'form',
 });
 
